@@ -11,7 +11,7 @@ def main():
    userChoice = input("1. Calculate\n2. Polynomial\n3.Trigonometry\n4. Settings\n5. Exit\n")
    if userChoice == "c" or userChoice == "1":
       os.system("clear")
-      calculate()
+      calculate(prevAnswer=0)
    elif userChoice == "p" or userChoice == "2":
       os.system("clear")
       polynomial()
@@ -25,7 +25,7 @@ def main():
       print("\ninvalid, please enter singular characters (e.g. calculator -> c\n\n")
       main()
       
-def calculate():
+def calculate(prevAnswer):
    userQuestion = input("Calculate?\n")
    if userQuestion == "exit":
       main()
@@ -34,6 +34,8 @@ def calculate():
    for char in userQuestion:
       if char.isdigit():
          number += str(char)
+      elif char == "a":
+         number += str(prevAnswer)
       else:
          equation.append(number)
          number = ""
@@ -44,48 +46,39 @@ def calculate():
    for args in equation:
       for i in range(len(equation)-1):
          try:
-            if args == "+":
-               num1 = int(equation[equation.index(args)-1]) 
-               num2 = equation[equation.index(args)+1]
-               ans = int(num1) + int(num2)
+            if args == "+": 
+               ans = float(equation[equation.index(args)-1]) + float(equation[equation.index(args)+1])
                equation.pop(equation.index(args)-1)
                equation.pop(equation.index(args)+1)
                equation.pop(equation.index(args))
                equation.insert(0+i,ans)
                i += 1 
             elif args == "-":
-               num1 = int(equation[equation.index(args)-1]) 
-               num2 = equation[equation.index(args)+1]
-               ans = int(num1) - int(num2)
+               ans = float(equation[equation.index(args)-1]) - float(equation[equation.index(args)+1])
                equation.pop(equation.index(args)-1)
                equation.pop(equation.index(args)+1)
                equation.pop(equation.index(args))
                equation.insert(0+i,ans)
                i += 1  
             elif args == "*":
-               num1 = int(equation[equation.index(args)-1]) 
-               num2 = equation[equation.index(args)+1]
-               ans = int(num1) * int(num2)
+               ans = float(equation[equation.index(args)-1]) * float(equation[equation.index(args)+1])
                equation.pop(equation.index(args)-1)
                equation.pop(equation.index(args)+1)
                equation.pop(equation.index(args))
                equation.insert(0+i,ans)
                i += 1  
             elif args == "/":
-               num1 = int(equation[equation.index(args)-1]) 
-               num2 = equation[equation.index(args)+1]
-               ans = int(num1) / int(num2)
+               ans = float(equation[equation.index(args)-1]) / float(equation[equation.index(args)+1])
                equation.pop(equation.index(args)-1)
                equation.pop(equation.index(args)+1)
                equation.pop(equation.index(args))
                equation.insert(0+i,ans)
-               i += 1  
-            else:
-               pass
+               i += 1
          except ValueError:
             break
+   
    print(equation[0])
-   calculate()
+   calculate(prevAnswer=equation[0])
 
 def trigonometry():
    userQuestion = input("Calculate?\n")
